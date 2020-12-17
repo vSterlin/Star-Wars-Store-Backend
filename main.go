@@ -14,7 +14,8 @@ func main() {
 	defer database.DB.Close()
 	r := mux.NewRouter()
 
-	r.HandleFunc("/", handlers.GetHandler)
+	r.HandleFunc("/", handlers.GetAllHandler)
+	r.HandleFunc("/{id}", handlers.GetOneHandler)
 	http.ListenAndServe("localhost:8080", r)
 
 }

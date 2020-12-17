@@ -8,7 +8,7 @@ import (
 	"github.com/vSterlin/sw-store/repos"
 )
 
-func GetHandler(w http.ResponseWriter, r *http.Request) {
+func GetAllHandler(w http.ResponseWriter, r *http.Request) {
 
 	pr := repos.NewProductRepo()
 	products := pr.FindAll()

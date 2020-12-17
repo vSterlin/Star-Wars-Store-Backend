@@ -22,7 +22,7 @@ func NewProductRepo() *ProductRepo {
 
 func (pr *ProductRepo) FindAll() []*productModel {
 
-	rows, err := database.DB.Query("SELECT * FROM products;")
+	rows, err := database.DB.QueryMany("SELECT * FROM products;")
 	if err != nil {
 		panic(err)
 	}
@@ -33,4 +33,15 @@ func (pr *ProductRepo) FindAll() []*productModel {
 		pmArr = append(pmArr, pm)
 	}
 	return pmArr
+}
+
+func (pr *ProductRepo) FindOne(id int) (*productModel, error) {
+	row := database.DB.QueryOne("SELECT * FROM products WHERE id=$1;", id)
+	pm := &productModel{}
+
+	err := row.Scan(&pm.ID, &pm.Name, &pm.Price, &pm.Description, &pm.CreatedAt, &pm.UpdatedAt)
+	if err != nil {
+		return nil, err
+	}
+	return pm, nil
 }
