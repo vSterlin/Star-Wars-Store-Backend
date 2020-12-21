@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
 
+	"github.com/vSterlin/sw-store/internal/app/handlers"
 	"github.com/vSterlin/sw-store/internal/app/store"
 )
 
@@ -32,7 +33,8 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) configureRouter() {
-	s.router.HandleFunc("/products", s.getAllHandler()).Methods("GET")
-	s.router.HandleFunc("/products/{id}", s.getOneHandler()).Methods("GET")
+	pr := s.store.Product()
+	s.router.HandleFunc("/products", handlers.GetAllHandler(pr)).Methods("GET")
+	s.router.HandleFunc("/products/{id}", handlers.GetOneHandler(pr)).Methods("GET")
 
 }
